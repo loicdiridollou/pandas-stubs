@@ -1195,7 +1195,9 @@ def test_timestamp_add_sub() -> None:
     check(assert_type(as_timedelta_index + ts, pd.DatetimeIndex), pd.DatetimeIndex)
 
     check(
-        assert_type(ts + as_timedelta_series, TimestampSeries), pd.Series, pd.Timestamp
+        assert_type(ts + as_timedelta_series, "pd.Series[pd.Timestamp]"),
+        pd.Series,
+        pd.Timestamp,
     )
     check(
         assert_type(as_timedelta_series + ts, TimestampSeries), pd.Series, pd.Timestamp
@@ -1221,7 +1223,9 @@ def test_timestamp_add_sub() -> None:
     check(assert_type(ts - as_offset, pd.Timestamp), pd.Timestamp)
     check(assert_type(ts - as_timedelta_index, pd.DatetimeIndex), pd.DatetimeIndex)
     check(
-        assert_type(ts - as_timedelta_series, TimestampSeries), pd.Series, pd.Timestamp
+        assert_type(ts - as_timedelta_series, "pd.Series[pd.Timestamp]"),
+        pd.Series,
+        pd.Timestamp,
     )
     check(
         assert_type(ts - as_np_ndarray_td64, npt.NDArray[np.datetime64]),

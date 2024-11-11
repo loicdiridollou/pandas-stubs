@@ -199,7 +199,7 @@ def test_datetimeindex_plus_timedelta() -> None:
     td_s = pd.to_timedelta(pd.Series([10, 20]), "minutes")
     dti_td_s = dti + td_s
     check(
-        assert_type(dti_td_s, "TimestampSeries"),
+        assert_type(dti_td_s, "pd.Series[pd.Timestamp]"),
         pd.Series,
         pd.Timestamp,
     )
@@ -227,7 +227,7 @@ def test_datetimeindex_minus_timedelta() -> None:
     td_s = pd.to_timedelta(pd.Series([10, 20]), "minutes")
     dti_td_s = dti - td_s
     check(
-        assert_type(dti_td_s, "TimestampSeries"),
+        assert_type(dti_td_s, "pd.Series[pd.Timestamp]"),
         pd.Series,
         pd.Timestamp,
     )
@@ -247,7 +247,7 @@ def test_timestamp_plus_timedelta_series() -> None:
     r3 = td + ts
     check(assert_type(r3, "TimestampSeries"), pd.Series, pd.Timestamp)
     r4 = ts + td
-    check(assert_type(r4, "TimestampSeries"), pd.Series, pd.Timestamp)
+    check(assert_type(r4, "pd.Series[pd.Timestamp]"), pd.Series, pd.Timestamp)
 
 
 def test_timedelta_series_mult() -> None:
@@ -338,7 +338,9 @@ def test_series_dt_accessors() -> None:
     i0 = pd.date_range(start="2022-06-01", periods=10)
     check(assert_type(i0, pd.DatetimeIndex), pd.DatetimeIndex, pd.Timestamp)
 
-    check(assert_type(i0.to_series(), "TimestampSeries"), pd.Series, pd.Timestamp)
+    check(
+        assert_type(i0.to_series(), "pd.Series[pd.Timestamp]"), pd.Series, pd.Timestamp
+    )
 
     s0 = pd.Series(i0)
 
@@ -986,7 +988,11 @@ def test_to_datetime_scalar_extended() -> None:
 
 def test_to_datetime_series() -> None:
     s = pd.Series(["2000-01-01", "2000-01-02"])
-    check(assert_type(pd.to_datetime(s), "TimestampSeries"), pd.Series)
+    check(
+        assert_type(pd.to_datetime(s), "TimestampSeries"),
+        pd.Series,
+        pd.Timestamp,
+    )
     d: FulldatetimeDict = {
         "year": [2000, 2000, 2000],
         "month": [1, 1, 1],
@@ -1007,9 +1013,21 @@ def test_to_datetime_series() -> None:
         "us": [1, 1, 1],
         "ns": [1, 1, 1],
     }
-    check(assert_type(pd.to_datetime(df), "TimestampSeries"), pd.Series)
-    check(assert_type(pd.to_datetime(d), "TimestampSeries"), pd.Series)
-    check(assert_type(pd.to_datetime(d_ex), "TimestampSeries"), pd.Series)
+    check(
+        assert_type(pd.to_datetime(df), "TimestampSeries"),
+        pd.Series,
+        pd.Timestamp,
+    )
+    check(
+        assert_type(pd.to_datetime(d), "TimestampSeries"),
+        pd.Series,
+        pd.Timestamp,
+    )
+    check(
+        assert_type(pd.to_datetime(d_ex), "TimestampSeries"),
+        pd.Series,
+        pd.Timestamp,
+    )
 
 
 def test_to_datetime_array() -> None:
