@@ -1258,14 +1258,15 @@ def test_timedelta64_and_arithmatic_operator() -> None:
     s3 = s2 - s1
     check(assert_type(s3, "TimedeltaSeries"), pd.Series, pd.Timedelta)
     td1 = pd.Timedelta(1, "D")
-    check(assert_type(s2 - td1, "TimestampSeries"), pd.Series, pd.Timestamp)
+    check(assert_type(s2 - td1, "pd.Series[pd.Timestamp]"), pd.Series, pd.Timestamp)
     # GH 758
     s4 = s1.astype(object)
-    check(assert_type(s4 - td1, "TimestampSeries"), pd.Series, pd.Timestamp)
+    check(assert_type(s4 - td1, "pd.Series[pd.Timestamp]"), pd.Series, pd.Timestamp)
 
+    # TODO remove once GH718 done
     s1 = cast("pd.Series[pd.Timestamp]", s1)  # type: ignore[assignment]
     td = np.timedelta64(1, "D")
-    check(assert_type((s1 - td), "TimestampSeries"), pd.Series, pd.Timestamp)
+    check(assert_type((s1 - td), "pd.Series[pd.Timestamp]"), pd.Series, pd.Timestamp)
     check(assert_type((s1 + td), "pd.Series[pd.Timestamp]"), pd.Series, pd.Timestamp)
     check(assert_type((s3 - td), "TimedeltaSeries"), pd.Series, pd.Timedelta)
     check(assert_type((s3 + td), "TimedeltaSeries"), pd.Series, pd.Timedelta)

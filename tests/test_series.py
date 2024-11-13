@@ -3047,12 +3047,12 @@ def test_timestamp_series() -> None:
     series = pd.Series([pd.Timestamp(2024, 4, 4)])
     check(
         assert_type(series + YearEnd(0), "pd.Series[pd.Timestamp]"),
-        TimestampSeries,
+        pd.Series,
         pd.Timestamp,
     )
     check(
-        assert_type(series - YearEnd(0), TimestampSeries),
-        TimestampSeries,
+        assert_type(series - YearEnd(0), "pd.Series[pd.Timestamp]"),
+        pd.Series,
         pd.Timestamp,
     )
 
