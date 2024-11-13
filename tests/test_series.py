@@ -3032,7 +3032,7 @@ def test_timedeltaseries_operators() -> None:
         pd.Timedelta,
     )
     check(
-        assert_type(datetime.datetime.now() + series, TimestampSeries),
+        assert_type(datetime.datetime.now() + series, "pd.Series[pd.Timestamp]"),
         pd.Series,
         pd.Timestamp,
     )
@@ -3046,7 +3046,7 @@ def test_timedeltaseries_operators() -> None:
 def test_timestamp_series() -> None:
     series = pd.Series([pd.Timestamp(2024, 4, 4)])
     check(
-        assert_type(series + YearEnd(0), TimestampSeries),
+        assert_type(series + YearEnd(0), "pd.Series[pd.Timestamp]"),
         TimestampSeries,
         pd.Timestamp,
     )
