@@ -1250,13 +1250,12 @@ def test_types_dot() -> None:
     Test dot operator.
 
     TODO GH1041 @ operator type inference is broken.
-    TODO check does not support Scalar as it is a union type
     """
     s1 = pd.Series([0, 1, 2, 3])
     s2 = pd.Series([-1, 2, -3, 4])
     df1 = pd.DataFrame([[0, 1], [-2, 3], [4, -5], [6, 7]])
     n1 = np.array([[0, 1], [1, 2], [-1, -1], [2, 0]])
-    sc1: Scalar = s1.dot(s2)
+    check(assert_type(s1.dot(s2), Scalar), float)
     sc2: Scalar = s1 @ s2
     check(assert_type(s1.dot(df1), "pd.Series[int]"),pd.Series, np.int64)
     s4: pd.Series = s1 @ df1
