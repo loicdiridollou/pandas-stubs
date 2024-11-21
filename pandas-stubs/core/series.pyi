@@ -2085,6 +2085,16 @@ class Series(IndexOpsMixin[S1], NDFrame):
         copy: _bool = ...,
         inplace: Literal[False] = ...,
     ) -> Self: ...
+    @overload
+    def rename_axis(
+        self,
+        mapper: None = ...,
+        index: Scalar | ListLike | Callable | dict | None = ...,
+        columns: Scalar | ListLike | Callable | dict | None = ...,
+        axis: AxisIndex | None = ...,
+        copy: _bool = ...,
+        inplace: Literal[False] = ...,
+    ) -> Self: ...
     def set_axis(self, labels, *, axis: Axis = ..., copy: _bool = ...) -> Self: ...
     def __iter__(self) -> Iterator[S1]: ...
     def xs(
