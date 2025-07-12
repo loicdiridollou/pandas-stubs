@@ -2042,7 +2042,7 @@ class DataFrame(NDFrame, OpsMixin, _GetItemHack):
         skipna: _bool | None = ...,
         numeric_only: _bool = ...,
         **kwargs: Any,
-    ) -> Series: ...
+    ) -> Series[Any]: ...
     def mean(
         self,
         axis: Axis | None = ...,
@@ -2065,7 +2065,7 @@ class DataFrame(NDFrame, OpsMixin, _GetItemHack):
         level: None = ...,
         numeric_only: _bool = ...,
         **kwargs: Any,
-    ) -> Series: ...
+    ) -> Series[Any]: ...
     def mod(
         self,
         other: num | ListLike | DataFrame,

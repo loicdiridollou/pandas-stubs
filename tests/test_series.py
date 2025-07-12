@@ -812,7 +812,7 @@ def test_types_element_wise_arithmetic() -> None:
     check(assert_type(s.add(s2, fill_value=0), "pd.Series[int]"), pd.Series, np.integer)
 
     # TODO this one below should type pd.Series[int]
-    check(assert_type(s - s2, pd.Series), pd.Series, np.integer)
+    check(assert_type(s - s2, "pd.Series[int]"), pd.Series, np.integer)
     check(assert_type(s.sub(s2, fill_value=0), "pd.Series[int]"), pd.Series, np.integer)
 
     # TODO these two below should type pd.Series[int]
@@ -822,20 +822,27 @@ def test_types_element_wise_arithmetic() -> None:
     check(assert_type(s.mul(s2, fill_value=0), pd.Series), pd.Series, np.integer)
 
     # TODO these two below should type pd.Series[float]
-    # check(assert_type(s / s2, "pd.Series[float]"), pd.Series, np.float64)
-    check(assert_type(s / s2, pd.Series), pd.Series, np.float64)
+    check(assert_type(s / s2, "pd.Series[float]"), pd.Series, np.float64)
     check(
         assert_type(s.div(s2, fill_value=0), "pd.Series[float]"), pd.Series, np.float64
     )
 
-    res_floordiv: pd.Series = s // s2
-    res_floordiv2: pd.Series = s.floordiv(s2, fill_value=0)
+    check(assert_type(s // s2, "pd.Series[int]"), pd.Series, np.integer)
+    check(
+        assert_type(s.floordiv(s2, fill_value=0), "pd.Series[int]"),
+        pd.Series,
+        np.integer,
+    )
 
-    res_mod: pd.Series = s % s2
-    res_mod2: pd.Series = s.mod(s2, fill_value=0)
+    check(assert_type(s % s2, "pd.Series[int]"), pd.Series, np.integer)
+    check(assert_type(s.mod(s2, fill_value=0), "pd.Series[int]"), pd.Series, np.integer)
 
-    res_pow: pd.Series = s ** s2.abs()
-    res_pow2: pd.Series = s.pow(s2.abs(), fill_value=0)
+    check(assert_type(s ** s2.abs(), "pd.Series[int]"), pd.Series, np.integer)
+    check(
+        assert_type(s.pow(s2.abs(), fill_value=0), "pd.Series[float]"),
+        pd.Series,
+        np.integer,
+    )
 
     check(assert_type(divmod(s, s2), tuple["pd.Series[int]", "pd.Series[int]"]), tuple)
 
@@ -867,12 +874,48 @@ def test_types_scalar_arithmetic() -> None:
     res_pow3: pd.Series = s.pow(0.5)
 
 
+def test_types_scalar_arithmetic_fix() -> None:
+    """
+    Test arithmetic type for series.
+
+    GH1098 those tests are broken and used to track changes
+    """
+    s = pd.Series([0, 1, -10])
+
+    check(assert_type(s - 1, "pd.Series[int]"), pd.Series, np.integer)
+    check(assert_type(s.sub(1, fill_value=0), "pd.Series[int]"), pd.Series, np.integer)
+
+    check(assert_type(s * 2, pd.Series), pd.Series)  # TODO GH1098 this should be Series[int]
+    check(assert_type(s.mul(2, fill_value=0), pd.Series), pd.Series)
+
+    check(assert_type(s / 2, "pd.Series[float]"), pd.Series, np.floating)
+    check(
+        assert_type(s.div(2, fill_value=0), "pd.Series[float]"), pd.Series, np.floating
+    )
+
+    check(assert_type(s // 2, "pd.Series[int]"), pd.Series, np.integer)
+    check(
+        assert_type(s.floordiv(2, fill_value=0), "pd.Series[int]"),
+        pd.Series,
+        np.integer,
+    )
+
+    check(assert_type(s % 2, "pd.Series[int]"), pd.Series, np.integer)
+    check(assert_type(s.mod(2, fill_value=0), "pd.Series[int]"), pd.Series, np.integer)
+
+    check(assert_type(s ** 2, "pd.Series[int]"), pd.Series, np.integer)
+    check(assert_type(s**0, "pd.Series[int]"), pd.Series, np.integer)
+    check(assert_type(s**0.213, "pd.Series[float]"), pd.Series, np.floating)
+    check(assert_type(s.pow(0.5), "pd.Series[float]"), pd.Series, np.floating)
+
+
 def test_types_complex_arithmetic() -> None:
     """Test adding complex number to pd.Series[float] GH 103."""
     c = 1 + 1j
     s = pd.Series([1.0, 2.0, 3.0])
-    x = s + c
-    y = s - c
+
+    check(assert_type(s + c, "pd.Series[complex]"), pd.Series, np.complexfloating)
+    check(assert_type(s - c, "pd.Series[complex]"), pd.Series, np.complexfloating)
 
 
 def test_types_groupby() -> None:
@@ -1599,10 +1642,10 @@ def test_series_min_max_sub_axis() -> None:
     ss = s1 - s2
     sm = s1 * s2
     sd = s1 / s2
-    check(assert_type(sa, pd.Series), pd.Series)
-    check(assert_type(ss, pd.Series), pd.Series)
-    check(assert_type(sm, pd.Series), pd.Series)
-    check(assert_type(sd, pd.Series), pd.Series)
+    check(assert_type(sa, pd.Series), pd.Series, np.integer)
+    check(assert_type(ss, pd.Series), pd.Series, np.integer)
+    check(assert_type(sm, pd.Series), pd.Series, np.integer)
+    check(assert_type(sd, pd.Series), pd.Series, np.floating)
 
 
 def test_series_index_isin() -> None:
@@ -1630,7 +1673,7 @@ def test_series_multiindex_getitem() -> None:
     s = pd.Series(
         [1, 2, 3, 4], index=pd.MultiIndex.from_product([["a", "b"], ["x", "y"]])
     )
-    s1: pd.Series = s["a", :]
+    check(assert_type(s["a", :], "pd.Series[int]"), pd.Series, np.integer)
 
 
 def test_series_mul() -> None:
@@ -1638,7 +1681,7 @@ def test_series_mul() -> None:
     sm = s * 4
     check(assert_type(sm, pd.Series), pd.Series)
     ss = s - 4
-    check(assert_type(ss, pd.Series), pd.Series)
+    check(assert_type(ss, "pd.Series[int]"), pd.Series, np.integer)
     sm2 = s * s
     check(assert_type(sm2, pd.Series), pd.Series)
     sp = s + 4
