@@ -1764,6 +1764,7 @@ def test_ravel(
         )
 
 
+@pytest.mark.filterwarnings("ignore::pandas.errors.PerformanceWarning")
 def test_get_loc_named_tuples() -> None:
     """Test get_loc for Index with named tuples."""
 
@@ -1800,4 +1801,38 @@ def test_get_loc_named_tuples() -> None:
     )
     check(
         assert_type(flat_midx.get_loc(("i5", "i6")), int | slice | np_1darray_bool), int
+    )
+
+    # Duplicate entries in sorted order → get_loc returns a slice
+    flat_midx_sorted_dupes = pd.Index(
+        [NamedIndex("i1", "i2"), NamedIndex("i1", "i2"), NamedIndex("i5", "i6")]
+    )
+    check(
+        assert_type(
+            flat_midx_sorted_dupes.get_loc(NamedIndex("i1", "i2")),
+            int | slice | np_1darray_bool,
+        ),
+        slice,
+    )
+
+    # Duplicate entries in contiguous order → get_loc returns a slice
+    flat_midx_unsorted_dupes = pd.Index(
+        [NamedIndex("i5", "i6"), NamedIndex("i1", "i2"), NamedIndex("i1", "i2")]
+    )
+    check(
+        assert_type(
+            flat_midx_unsorted_dupes.get_loc(NamedIndex("i1", "i2")),
+            int | slice | np_1darray_bool,
+        ),
+        slice,
+    )
+
+
+def test_get_loc_bool_array() -> None:
+    """Test that get_loc returns a boolean ndarray for non-contiguous duplicates."""
+    idx = pd.Index(["a", "b", "a", "c"])
+    check(
+        assert_type(idx.get_loc("a"), int | slice | np_1darray_bool),
+        np.ndarray,
+        np.bool_,
     )
