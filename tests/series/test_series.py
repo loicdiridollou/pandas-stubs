@@ -1,3 +1,4 @@
+# pyrefly: ignore-errors
 from __future__ import annotations
 
 from collections import UserDict
@@ -49,7 +50,6 @@ import pytest
 import xarray as xr
 
 from pandas._libs.tslibs.offsets import Day
-from pandas.errors import Pandas4Warning
 
 from tests import (
     TYPE_CHECKING_INVALID_USAGE,
@@ -1983,6 +1983,12 @@ def test_where() -> None:
     check(assert_type(s.where(cond3, other=0), "pd.Series[int]"), pd.Series, np.int_)
 
 
+def test_where_with_none() -> None:
+    # https://github.com/vega/altair/issues/3961
+    s = pd.Series([1.5, 2.6])
+    check(assert_type(s.where(s > 1, None), "pd.Series[float]"), pd.Series, float)
+
+
 def test_bitwise_operators() -> None:
     s = pd.Series([1, 2, 3, 4], dtype=int)
     s2 = pd.Series([9, 10, 11, 12], dtype=int)
@@ -2278,7 +2284,8 @@ def test_to_json_mode() -> None:
     check(assert_type(result2, str), str)
     check(assert_type(result4, str), str)
     if TYPE_CHECKING_INVALID_USAGE:
-        _result3 = s.to_json(orient="records", lines=False, mode="a")  # type: ignore[call-overload] # pyright: ignore[reportArgumentType,reportCallIssue,reportUnknownVariableType]
+        _0 = s.to_json(orient="records", lines=False, mode="a")  # type: ignore[call-overload] # pyright: ignore[reportArgumentType,reportCallIssue,reportUnknownVariableType]
+        _1 = s.to_json(date_format="epoch")  # type: ignore[call-overload] # pyright: ignore[reportArgumentType]
 
 
 def test_interpolate() -> None:
@@ -2909,23 +2916,19 @@ def test_series_reindex() -> None:
 def test_series_reindex_like() -> None:
     s = pd.Series([1, 2, 3], index=[0, 1, 2])
     other = pd.Series([1, 2], index=[1, 0])
-    with pytest_warns_bounded(
-        Pandas4Warning,
-        "the 'method' keyword is deprecated and will be removed in a future version. Please take steps to stop the use of 'method'",
-        upper="3.1.99",
-    ):
-        check(
-            assert_type(
-                s.reindex_like(other, method="nearest", tolerance=[0.5, 0.2]),
-                "pd.Series[int]",
-            ),
-            pd.Series,
-            np.integer,
-        )
+    check(
+        assert_type(
+            s.reindex_like(other),
+            "pd.Series[int]",
+        ),
+        pd.Series,
+        np.integer,
+    )
 
     if TYPE_CHECKING_INVALID_USAGE:
         # copy argument is deprecated from 3.0
         _0 = s.reindex_like(other, copy=True)  # type: ignore[call-arg] # pyright: ignore[reportCallIssue,reportUnknownVariableType]
+        _1 = s.reindex_like(other, method="nearest", tolerance=[0.5, 0.2])  # type: ignore[call-arg] # pyright: ignore[reportCallIssue,reportUnknownVariableType]
 
 
 def test_info() -> None:
