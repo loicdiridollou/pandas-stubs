@@ -1632,9 +1632,7 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
             | Callable[[Series[S1]], Series[bool]]
             | Callable[[S1], bool]
         ),
-        other: (
-            Scalar | Series[S1] | DataFrame | Callable[..., Any] | NAType | None
-        ) = ...,
+        other: Scalar | Series[S1] | Callable[..., Any] | NAType | None = ...,
         *,
         inplace: Literal[True],
         axis: AxisIndex | None = 0,
@@ -1650,9 +1648,7 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
             | Callable[[Series[S1]], Series[bool]]
             | Callable[[S1], bool]
         ),
-        other: (
-            S1 | Series[S1] | DataFrame | Callable[..., S1 | Self] | NAType | None
-        ) = ...,
+        other: S1 | Series[S1] | Callable[..., S1 | Self] | NAType | None = ...,
         *,
         inplace: Literal[False] = False,
         axis: AxisIndex | None = 0,
@@ -1668,7 +1664,7 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
             | Callable[[Series[S1]], Series[bool]]
             | Callable[[S1], bool]
         ),
-        other: S2 | Series[S2] | DataFrame | Callable[..., S2] | NAType,
+        other: S2 | Series[S2] | Callable[..., S2],
         *,
         inplace: Literal[False] = False,
         axis: AxisIndex | None = 0,
