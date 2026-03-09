@@ -59,3 +59,32 @@ def test_logical_operators() -> None:
     check(assert_type(x ^ True, Expression), Expression)
     check(assert_type(True ^ x, Expression), Expression)
     check(assert_type(~x, Expression), Expression)
+
+
+def test_binary_operators_with_series() -> None:
+    """Test binary operators between Expression and Series."""
+    x = pd.col("x")
+    s = pd.Series([1, 2, 3])
+
+    check(assert_type(x + s, Expression), Expression)
+    check(assert_type(x - s, Expression), Expression)
+    check(assert_type(x * s, Expression), Expression)
+    check(assert_type(x / s, Expression), Expression)
+    check(assert_type(x // s, Expression), Expression)
+    check(assert_type(x % s, Expression), Expression)
+    check(assert_type(x >= s, Expression), Expression)
+    check(assert_type(x > s, Expression), Expression)
+    check(assert_type(x <= s, Expression), Expression)
+    check(assert_type(x < s, Expression), Expression)
+    check(assert_type(x == s, Expression), Expression)
+    check(assert_type(x != s, Expression), Expression)
+
+
+def test_logical_operators_with_series() -> None:
+    """Test logical operators between Expression and Series."""
+    x = pd.col("x")
+    s = pd.Series([True, False, True])
+
+    check(assert_type(x & s, Expression), Expression)
+    check(assert_type(x | s, Expression), Expression)
+    check(assert_type(x ^ s, Expression), Expression)
