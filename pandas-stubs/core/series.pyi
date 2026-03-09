@@ -1651,13 +1651,29 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
             | Callable[[S1], bool]
         ),
         other: (
-            Scalar | Series[S1] | DataFrame | Callable[..., Any] | NAType | None
+            S1 | Series[S1] | DataFrame | Callable[..., S1 | Self] | NAType | None
         ) = ...,
         *,
         inplace: Literal[False] = False,
         axis: AxisIndex | None = 0,
         level: Level | None = ...,
     ) -> Series[S1]: ...
+    @overload
+    def mask(
+        self,
+        cond: (
+            Series[S1]
+            | Series[_bool]
+            | np_ndarray_bool
+            | Callable[[Series[S1]], Series[bool]]
+            | Callable[[S1], bool]
+        ),
+        other: S2 | Series[S2] | DataFrame | Callable[..., S2] | NAType,
+        *,
+        inplace: Literal[False] = False,
+        axis: AxisIndex | None = 0,
+        level: Level | None = ...,
+    ) -> Series[S2]: ...
     def case_when(
         self,
         caselist: Sequence[

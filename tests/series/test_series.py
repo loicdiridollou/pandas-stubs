@@ -2384,6 +2384,9 @@ def test_types_mask() -> None:
     check(assert_type(s.mask(s > 3, None), "pd.Series[int]"), pd.Series, np.float64)
     check(assert_type(s.mask(s > 3, pd.NA), "pd.Series[int]"), pd.Series, np.float64)
 
+    # check with a type for other that is wider than the series content
+    check(assert_type(s.mask(s > 3, 3.5), "pd.Series[float]"), pd.Series, np.float64)
+
 
 def test_rank() -> None:
     check(
