@@ -1600,12 +1600,28 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
             | Callable[[Series[S1]], Series[bool]]
             | Callable[[S1], bool]
         ),
-        other: Scalar | Self | Callable[..., Scalar | Self] | None = ...,
+        other: S1 | Self | Callable[..., S1 | Self] | None = ...,
         *,
         inplace: Literal[False] = False,
         axis: AxisIndex | None = 0,
         level: Level | None = ...,
     ) -> Self: ...
+    @overload
+    def where(
+        self,
+        cond: (
+            Series[S1]
+            | Series[_bool]
+            | np_ndarray_bool
+            | Callable[[Series[S1]], Series[bool]]
+            | Callable[[S1], bool]
+        ),
+        other: S2 | Callable[..., S2],
+        *,
+        inplace: Literal[False] = False,
+        axis: AxisIndex | None = 0,
+        level: Level | None = ...,
+    ) -> Series[S2]: ...
     @overload
     def mask(
         self,
@@ -1616,9 +1632,7 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
             | Callable[[Series[S1]], Series[bool]]
             | Callable[[S1], bool]
         ),
-        other: (
-            Scalar | Series[S1] | DataFrame | Callable[..., Any] | NAType | None
-        ) = ...,
+        other: Scalar | Series[S1] | Callable[..., Any] | NAType | None = ...,
         *,
         inplace: Literal[True],
         axis: AxisIndex | None = 0,
@@ -1634,14 +1648,28 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
             | Callable[[Series[S1]], Series[bool]]
             | Callable[[S1], bool]
         ),
-        other: (
-            Scalar | Series[S1] | DataFrame | Callable[..., Any] | NAType | None
-        ) = ...,
+        other: S1 | Series[S1] | Callable[..., S1 | Self] | NAType | None = ...,
         *,
         inplace: Literal[False] = False,
         axis: AxisIndex | None = 0,
         level: Level | None = ...,
     ) -> Series[S1]: ...
+    @overload
+    def mask(
+        self,
+        cond: (
+            Series[S1]
+            | Series[_bool]
+            | np_ndarray_bool
+            | Callable[[Series[S1]], Series[bool]]
+            | Callable[[S1], bool]
+        ),
+        other: S2 | Series[S2] | Callable[..., S2],
+        *,
+        inplace: Literal[False] = False,
+        axis: AxisIndex | None = 0,
+        level: Level | None = ...,
+    ) -> Series[S2]: ...
     def case_when(
         self,
         caselist: Sequence[
