@@ -286,6 +286,11 @@ def test_types_assign() -> None:
     df = pd.DataFrame()
     check(assert_type(df.assign(a=[], b=()), pd.DataFrame), pd.DataFrame)
 
+    check(
+        assert_type(pd.DataFrame({"x": [1]}).assign(y=pd.col("x") + 1), pd.DataFrame),
+        pd.DataFrame,
+    )
+
 
 def test_assign() -> None:
     df = pd.DataFrame({"a": [1, 2, 3], 1: [4, 5, 6]})
