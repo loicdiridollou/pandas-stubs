@@ -1,3 +1,4 @@
+from pandas.core.col import Expression as Expression
 from pandas.core.groupby import (
     DataFrameGroupBy as DataFrameGroupBy,
     SeriesGroupBy as SeriesGroupBy,
