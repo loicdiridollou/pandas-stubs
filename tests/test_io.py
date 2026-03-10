@@ -1,3 +1,4 @@
+# pyrefly: ignore-errors
 from collections import defaultdict
 from collections.abc import Generator
 import csv
@@ -203,6 +204,10 @@ def test_clipboard() -> None:
     check(assert_type(read_clipboard(chunksize=None), DataFrame), DataFrame)
     check(
         assert_type(read_clipboard(dtype=defaultdict(lambda: "f8")), DataFrame),
+        DataFrame,
+    )
+    check(
+        assert_type(read_clipboard(dtype={"first": "f8"}), DataFrame),
         DataFrame,
     )
     check(assert_type(read_clipboard(names=None), DataFrame), DataFrame)
@@ -578,6 +583,10 @@ def test_read_csv(tmp_path: Path) -> None:
         assert_type(read_csv(path_str, dtype=defaultdict(lambda: "f8")), DataFrame),
         DataFrame,
     )
+    check(
+        assert_type(read_csv(path_str, dtype={"first": "f8"}), DataFrame),
+        DataFrame,
+    )
 
     def cols(x: str) -> bool:
         return x in ["a", "b"]
@@ -785,6 +794,10 @@ def test_read_table(tmp_path: Path) -> None:
     check(assert_type(read_table(path_str, chunksize=None), DataFrame), DataFrame)
     check(
         assert_type(read_table(path_str, dtype=defaultdict(lambda: "f8")), DataFrame),
+        DataFrame,
+    )
+    check(
+        assert_type(read_table(path_str, dtype={"first": "f8"}), DataFrame),
         DataFrame,
     )
     check(

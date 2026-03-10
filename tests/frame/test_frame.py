@@ -1,3 +1,4 @@
+# pyrefly: ignore-errors
 from __future__ import annotations
 
 from collections import (
@@ -49,7 +50,6 @@ import xarray as xr
 from tests import (
     TYPE_CHECKING_INVALID_USAGE,
     check,
-    pytest_warns_bounded,
 )
 from tests._typing import (
     np_1darray,
@@ -72,8 +72,6 @@ if TYPE_CHECKING:
     from pandas.core.frame import PandasNamedTuple
 else:
     PandasNamedTuple: TypeAlias = tuple
-
-from pandas.errors import Pandas4Warning
 
 
 def getCols(k: int) -> str:
@@ -288,6 +286,11 @@ def test_types_assign() -> None:
     df = pd.DataFrame()
     check(assert_type(df.assign(a=[], b=()), pd.DataFrame), pd.DataFrame)
 
+    check(
+        assert_type(pd.DataFrame({"x": [1]}).assign(y=pd.col("x") + 1), pd.DataFrame),
+        pd.DataFrame,
+    )
+
 
 def test_assign() -> None:
     df = pd.DataFrame({"a": [1, 2, 3], 1: [4, 5, 6]})
@@ -498,15 +501,6 @@ def test_types_set_index() -> None:
     check(assert_type(df.set_index("col1"), pd.DataFrame), pd.DataFrame)
     check(assert_type(df.set_index("col1", drop=False), pd.DataFrame), pd.DataFrame)
     check(assert_type(df.set_index("col1", append=True), pd.DataFrame), pd.DataFrame)
-    with pytest_warns_bounded(
-        Pandas4Warning,
-        "The 'verify_integrity' keyword in DataFrame.set_index is deprecated and will be removed in a future version. Directly check the result.index.is_unique instead.",
-        lower="2.99",
-    ):
-        check(
-            assert_type(df.set_index("col1", verify_integrity=True), pd.DataFrame),
-            pd.DataFrame,
-        )
     check(assert_type(df.set_index(["col1", "col2"]), pd.DataFrame), pd.DataFrame)
     check(assert_type(df.set_index("col1", inplace=True), None), type(None))
     # GH 140
@@ -514,6 +508,9 @@ def test_types_set_index() -> None:
         assert_type(df.set_index(pd.Index(["w", "x", "y", "z"])), pd.DataFrame),
         pd.DataFrame,
     )
+
+    if TYPE_CHECKING_INVALID_USAGE:
+        _0 = df.set_index("col1", verify_integrity=True)  # type: ignore[call-overload] # pyright: ignore[reportCallIssue,reportUnknownVariableType]
 
 
 def test_types_query() -> None:
@@ -3168,22 +3165,18 @@ def test_frame_reindex_like() -> None:
     # GH 84
     df = pd.DataFrame({"a": [1, 2, 3]}, index=[0, 1, 2])
     other = pd.DataFrame({"a": [1, 2]}, index=[1, 0])
-    with pytest_warns_bounded(
-        Pandas4Warning,
-        "the 'method' keyword is deprecated and will be removed in a future version. Please take steps to stop the use of 'method'",
-        upper="3.1.99",
-    ):
-        check(
-            assert_type(
-                df.reindex_like(other, method="nearest", tolerance=[0.5, 0.2]),
-                pd.DataFrame,
-            ),
+    check(
+        assert_type(
+            df.reindex_like(other),
             pd.DataFrame,
-        )
+        ),
+        pd.DataFrame,
+    )
 
     if TYPE_CHECKING_INVALID_USAGE:
         # copy argument is deprecated from 3.0
         _0 = df.reindex_like(other, copy=True)  # type: ignore[call-arg] # pyright: ignore[reportCallIssue,reportUnknownVariableType]
+        _1 = df.reindex_like(other, method="nearest", tolerance=[0.5, 0.2])  # type: ignore[call-arg] # pyright: ignore[reportCallIssue,reportUnknownVariableType]
 
 
 def test_not_hashable() -> None:
@@ -3446,9 +3439,11 @@ def test_where(
         assert_type(df.where(where_cond1), pd.DataFrame)
         assert_type(df.where(where_cond2), pd.DataFrame)
         assert_type(df.where(where_cond3), pd.DataFrame)
+        assert_type(df.where(where_cond3, None), pd.DataFrame)
         assert_type(df.where(where_cond1, inplace=True), pd.DataFrame)
         assert_type(df.where(where_cond2, inplace=True), pd.DataFrame)
         assert_type(df.where(where_cond3, inplace=True), pd.DataFrame)
+        assert_type(df.where(where_cond3, None, inplace=True), pd.DataFrame)
 
 
 def test_mask() -> None:
@@ -3846,7 +3841,8 @@ def test_to_json_mode() -> None:
     check(assert_type(result2, str), str)
     check(assert_type(result4, str), str)
     if TYPE_CHECKING_INVALID_USAGE:
-        _result3 = df.to_json(orient="records", lines=False, mode="a")  # type: ignore[call-overload] # pyright: ignore[reportArgumentType,reportCallIssue,reportUnknownVariableType]
+        _0 = df.to_json(orient="records", lines=False, mode="a")  # type: ignore[call-overload] # pyright: ignore[reportArgumentType,reportCallIssue,reportUnknownVariableType]
+        _1 = df.to_json(date_format="epoch")  # type: ignore[call-overload] # pyright: ignore[reportArgumentType]
 
 
 def test_interpolate() -> None:
