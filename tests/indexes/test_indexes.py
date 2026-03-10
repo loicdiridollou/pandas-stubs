@@ -1836,3 +1836,22 @@ def test_get_loc_bool_array() -> None:
         np.ndarray,
         np.bool_,
     )
+
+
+def test_multiindex_get_loc() -> None:
+    """Test the different returns type of MultiIndex.get_loc."""
+    mi = pd.MultiIndex.from_arrays([["a", "b", "b"], ["d", "e", "f"]])
+
+    # int
+    loc_int = mi.get_loc(("b", "e"))
+    check(assert_type(loc_int, int | slice | np_1darray_bool), int)
+
+    # slice
+    loc_slice = mi.get_loc("b")
+    check(assert_type(loc_slice, int | slice | np_1darray_bool), slice)
+
+    # boolean mask
+    # (non-sorted level causes a mask to be returned)
+    mi_unsorted = pd.MultiIndex.from_arrays([["a", "b", "a"], ["d", "e", "f"]])
+    loc_mask = mi_unsorted.get_loc("a")
+    check(assert_type(loc_mask, int | slice | np_1darray_bool), np.ndarray, np.bool_)
