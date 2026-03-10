@@ -3046,6 +3046,13 @@ def test_series_str_methods() -> None:
     check(assert_type(s_str.str.lower(), "pd.Series[str]"), pd.Series, str)
 
 
+def test_series_str_methods_iter() -> None:
+    """Test that StringMethods are not iterable."""
+    s_str = pd.Series(["a", "b"])
+    if TYPE_CHECKING_INVALID_USAGE:
+        assert_type(s_str.str.__iter__(), Never)
+
+
 def test_series_explode() -> None:
     """Test Series.explode method."""
     s = pd.Series([[1, 2, 3], "foo", [], [3, 4]])
