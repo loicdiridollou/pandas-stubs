@@ -249,6 +249,74 @@ from pandas.core.dtypes.dtypes import CategoricalDtype
 from pandas.plotting import PlotAccessor
 
 MaskTypeNoList: TypeAlias = Series[bool] | np_ndarray_bool
+DisallowedDateTimeDtype: TypeAlias = Literal[
+    # timedelta
+    "timedelta64[Y]",
+    "timedelta64[M]",
+    "timedelta64[W]",
+    "timedelta64[D]",
+    "timedelta64[h]",
+    "timedelta64[m]",
+    "timedelta64[μs]",
+    "timedelta64[ps]",
+    "timedelta64[fs]",
+    "timedelta64[as]",
+    # numpy type codes
+    "m8[Y]",
+    "m8[M]",
+    "m8[W]",
+    "m8[D]",
+    "m8[h]",
+    "m8[m]",
+    "m8[μs]",
+    "m8[ps]",
+    "m8[fs]",
+    "m8[as]",
+    # little endian
+    "<m8[Y]",
+    "<m8[M]",
+    "<m8[W]",
+    "<m8[D]",
+    "<m8[h]",
+    "<m8[m]",
+    "<m8[μs]",
+    "<m8[ps]",
+    "<m8[fs]",
+    "<m8[as]",
+    # datetime
+    "datetime64[Y]",
+    "datetime64[M]",
+    "datetime64[W]",
+    "datetime64[D]",
+    "datetime64[h]",
+    "datetime64[m]",
+    "datetime64[μs]",
+    "datetime64[ps]",
+    "datetime64[fs]",
+    "datetime64[as]",
+    # numpy type codes
+    "M8[Y]",
+    "M8[M]",
+    "M8[W]",
+    "M8[D]",
+    "M8[h]",
+    "M8[m]",
+    "M8[μs]",
+    "M8[ps]",
+    "M8[fs]",
+    "M8[as]",
+    # little endian
+    "<M8[Y]",
+    "<M8[M]",
+    "<M8[W]",
+    "<M8[D]",
+    "<M8[h]",
+    "<M8[m]",
+    "<M8[μs]",
+    "<M8[ps]",
+    "<M8[fs]",
+    "<M8[as]",
+]
 
 @type_check_only
 class _SupportsAdd(Protocol[T_co]):
@@ -360,7 +428,7 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
         copy: bool | None = None,
     ) -> Series[list[_str]]: ...
     @overload
-    def __new__(
+    def __new__(  # type: ignore[overload-overlap]
         cls,
         data: Sequence[_str],
         index: AxesData | None = None,
@@ -507,6 +575,25 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
         name: Hashable = None,
         copy: bool | None = None,
     ) -> Self: ...
+    @overload
+    def __new__(
+        cls,
+        data: (
+            S1
+            | ArrayLike
+            | dict[_str, np_ndarray]
+            | Sequence[S1]
+            | IndexOpsMixin[S1]
+            | dict[HashableT1, S1]
+            | KeysView[S1]
+            | ValuesView[S1]
+        ),
+        index: AxesData | None = None,
+        *,
+        dtype: DisallowedDateTimeDtype,
+        name: Hashable = None,
+        copy: bool | None = None,
+    ) -> Never: ...
     @overload
     def __new__(
         cls,
