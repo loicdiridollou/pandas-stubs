@@ -3066,7 +3066,13 @@ def test_series_str_methods_iter() -> None:
     """Test that StringMethods are not iterable."""
     s_str = pd.Series(["a", "b"])
     if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(s_str.str.__iter__(), Never)
+
+        def _sr_iter() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(s_str.str.__iter__(), Never)
+
+        # def _sr_iterator() -> None:
+        #     for _ in s_str.str:
+        #         pass
 
 
 def test_series_explode() -> None:

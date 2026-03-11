@@ -132,73 +132,60 @@ def test_series_construction_timestamp_dtype() -> None:
     # instead of Series[Timestamp], indicating the dtype is unsupported.
 
     if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[Y]"), Never
-        )
 
+        def _ts_Y() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[Y]"), Never
+            )
 
-def test_dtype_datetime64_m() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[M]"), Never
-        )
+        def _ts_M() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[M]"), Never
+            )
 
+        def _ts_W() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[W]"), Never
+            )
 
-def test_dtype_datetime64_w() -> None:
+        def _ts_D() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[D]"), Never
+            )
 
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[W]"), Never
-        )
+        def _ts_h() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[h]"), Never
+            )
 
+        def _ts_m() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[m]"), Never
+            )
 
-def test_dtype_datetime64_d() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[D]"), Never
-        )
+        def _ts_mus() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[μs]"),
+                Never,
+            )
 
+        def _ts_ps() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[ps]"),
+                Never,
+            )
 
-def test_dtype_datetime64_hour() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[h]"), Never
-        )
+        def _ts_fs() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[fs]"),
+                Never,
+            )
 
-
-def test_dtype_datetime64_min() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[m]"), Never
-        )
-
-
-def test_dtype_datetime64_mus() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[μs]"), Never
-        )
-
-
-def test_dtype_datetime64_ps() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[ps]"), Never
-        )
-
-
-def test_dtype_datetime64_fs() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[fs]"), Never
-        )
-
-
-def test_dtype_datetime64_as() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[as]"), Never
-        )
+        def _ts_as() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.datetime(2020, 1, 1)], dtype="datetime64[as]"),
+                Never,
+            )
 
 
 @pytest.mark.parametrize(

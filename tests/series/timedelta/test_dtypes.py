@@ -133,72 +133,66 @@ def test_series_construction_timedelta_dtype() -> None:
     # instead of Series[Timedelta], indicating the dtype is unsupported.
 
     if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[Y]"), Never
-        )
 
+        def _td_Y() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[Y]"),
+                Never,
+            )
 
-def test_dtype_timedelta_m() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[M]"), Never
-        )
+        def _td_M() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[M]"),
+                Never,
+            )
 
+        def _td_W() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[W]"),
+                Never,
+            )
 
-def test_dtype_timedelta_w() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[W]"), Never
-        )
+        def _td_D() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[D]"),
+                Never,
+            )
 
+        def _td_h() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[h]"),
+                Never,
+            )
 
-def test_dtype_timedelta_d() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[D]"), Never
-        )
+        def _td_m() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[m]"),
+                Never,
+            )
 
+        def _td_mus() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[μs]"),
+                Never,
+            )
 
-def test_dtype_timedelta_hour() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[h]"), Never
-        )
+        def _td_ps() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[ps]"),
+                Never,
+            )
 
+        def _td_fs() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[fs]"),
+                Never,
+            )
 
-def test_dtype_timedelta_min() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[m]"), Never
-        )
-
-
-def test_dtype_timedelta_mus() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[μs]"), Never
-        )
-
-
-def test_dtype_timedelta_ps() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[ps]"), Never
-        )
-
-
-def test_dtype_timedelta_fs() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[fs]"), Never
-        )
-
-
-def test_dtype_timedelta_as() -> None:
-    if TYPE_CHECKING_INVALID_USAGE:
-        assert_type(
-            pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[as]"), Never
-        )
+        def _td_as() -> None:  # pyright: ignore[reportUnusedFunction]
+            assert_type(
+                pd.Series([datetime.timedelta(seconds=1)], dtype="timedelta64[as]"),
+                Never,
+            )
 
 
 @pytest.mark.parametrize(
