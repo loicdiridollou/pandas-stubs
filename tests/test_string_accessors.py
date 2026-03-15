@@ -514,85 +514,26 @@ def test_series_str_replace() -> None:
 def test_series_str_banned_na() -> None:
     """Test ."""
     sr = pd.Series(["om", np.nan, "foo_nom", "nom", "bar_foo", np.nan, "foo"])
+    _check = functools.partial(check, klass=pd.Series, dtype=np.bool_)
 
     # only None, pd.NA, np.nan, True, or False are allowed
-    check(
-        assert_type(sr.str.startswith("kapow", na=None), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
-    check(
-        assert_type(sr.str.startswith("kapow", na=pd.NA), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
-    check(
-        assert_type(sr.str.startswith("kapow", na=np.nan), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
-    check(
-        assert_type(sr.str.startswith("kapow", na=True), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
-    check(
-        assert_type(sr.str.startswith("kapow", na=False), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
+    _check(assert_type(sr.str.startswith("kapow", na=None), "pd.Series[bool]"))
+    _check(assert_type(sr.str.startswith("kapow", na=pd.NA), "pd.Series[bool]"))
+    _check(assert_type(sr.str.startswith("kapow", na=np.nan), "pd.Series[bool]"))
+    _check(assert_type(sr.str.startswith("kapow", na=True), "pd.Series[bool]"))
+    _check(assert_type(sr.str.startswith("kapow", na=False), "pd.Series[bool]"))
 
-    check(
-        assert_type(sr.str.endswith("kapow", na=None), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
-    check(
-        assert_type(sr.str.endswith("kapow", na=pd.NA), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
-    check(
-        assert_type(sr.str.endswith("kapow", na=np.nan), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
-    check(
-        assert_type(sr.str.endswith("kapow", na=True), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
-    check(
-        assert_type(sr.str.endswith("kapow", na=False), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
+    _check(assert_type(sr.str.endswith("kapow", na=None), "pd.Series[bool]"))
+    _check(assert_type(sr.str.endswith("kapow", na=pd.NA), "pd.Series[bool]"))
+    _check(assert_type(sr.str.endswith("kapow", na=np.nan), "pd.Series[bool]"))
+    _check(assert_type(sr.str.endswith("kapow", na=True), "pd.Series[bool]"))
+    _check(assert_type(sr.str.endswith("kapow", na=False), "pd.Series[bool]"))
 
-    check(
-        assert_type(sr.str.contains("kapow", na=None), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
-    check(
-        assert_type(sr.str.contains("kapow", na=pd.NA), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
-    check(
-        assert_type(sr.str.contains("kapow", na=np.nan), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
-    check(
-        assert_type(sr.str.contains("kapow", na=True), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
-    check(
-        assert_type(sr.str.contains("kapow", na=False), "pd.Series[bool]"),
-        pd.Series,
-        np.bool,
-    )
+    _check(assert_type(sr.str.contains("kapow", na=None), "pd.Series[bool]"))
+    _check(assert_type(sr.str.contains("kapow", na=pd.NA), "pd.Series[bool]"))
+    _check(assert_type(sr.str.contains("kapow", na=np.nan), "pd.Series[bool]"))
+    _check(assert_type(sr.str.contains("kapow", na=True), "pd.Series[bool]"))
+    _check(assert_type(sr.str.contains("kapow", na=False), "pd.Series[bool]"))
 
     if TYPE_CHECKING_INVALID_USAGE:
         sr.str.startswith("kapow", na="baz")  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
