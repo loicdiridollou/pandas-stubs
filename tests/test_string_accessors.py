@@ -512,7 +512,7 @@ def test_series_str_replace() -> None:
 
 
 def test_series_str_banned_na() -> None:
-    """Test ."""
+    """Test deprecated allowing non-bool values for na in .str.contains, str.startswith, and .str.endswith."""
     sr = pd.Series(["om", np.nan, "foo_nom", "nom", "bar_foo", np.nan, "foo"])
     _check = functools.partial(check, klass=pd.Series, dtype=np.bool_)
 
