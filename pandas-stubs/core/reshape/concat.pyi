@@ -24,7 +24,7 @@ from pandas._typing import (
     HashableT4,
 )
 
-DataFrameCompatType = TypeVar("DataFrameCompatType", bound=DataFrame)
+DataFrameT0 = TypeVar("DataFrameT0", bound=DataFrame)
 
 @overload
 def concat(
@@ -67,7 +67,7 @@ def concat(  # type: ignore[overload-overlap]
 ) -> Series: ...
 @overload
 def concat(
-    objs: Iterable[DataFrameCompatType | None],
+    objs: Iterable[DataFrameT0 | None],
     *,
     axis: Axis = 0,
     join: Literal["inner", "outer"] = "outer",
@@ -77,7 +77,7 @@ def concat(
     names: list[HashableT4] | None = None,
     verify_integrity: bool = False,
     sort: bool = False,
-) -> DataFrameCompatType: ...
+) -> DataFrameT0: ...
 @overload
 def concat(
     objs: Iterable[NDFrame | None] | Mapping[HashableT1, NDFrame | None],
