@@ -341,8 +341,8 @@ def test_series_dt_accessors() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(s0.dt.dayofweek, "pd.Series[int]"), pd.Series, np.integer)
 
@@ -351,16 +351,16 @@ def test_series_dt_accessors() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(s0.dt.weekday, "pd.Series[int]"), pd.Series, np.integer)
 
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(s0.dt.dayofyear, "pd.Series[int]"), pd.Series, np.integer)
 
@@ -377,8 +377,8 @@ def test_series_dt_accessors() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(s0.dt.daysinmonth, "pd.Series[int]"), pd.Series, np.integer)
 
@@ -669,8 +669,8 @@ def test_datetimeindex_accessors() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(i0.dayofweek, "pd.Index[int]"), pd.Index, np.int32)
 
@@ -679,16 +679,16 @@ def test_datetimeindex_accessors() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(i0.weekday, "pd.Index[int]"), pd.Index, np.int32)
 
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(i0.dayofyear, "pd.Index[int]"), pd.Index, np.int32)
 
@@ -705,8 +705,8 @@ def test_datetimeindex_accessors() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(i0.daysinmonth, "pd.Index[int]"), pd.Index, np.int32)
 
@@ -794,8 +794,8 @@ def test_periodindex_accessors() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(i0.dayofweek, "pd.Index[int]"), pd.Index, np.integer)
 
@@ -803,16 +803,16 @@ def test_periodindex_accessors() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(i0.weekday, "pd.Index[int]"), pd.Index, np.integer)
 
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(i0.dayofyear, "pd.Index[int]"), pd.Index, np.integer)
 
@@ -822,8 +822,8 @@ def test_periodindex_accessors() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(i0.daysinmonth, "pd.Index[int]"), pd.Index, np.integer)
 

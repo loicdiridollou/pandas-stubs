@@ -238,24 +238,24 @@ def test_properties() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(arr.dayofweek, np_1darray_int32), np_1darray_int32, np.int32)
 
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(arr.weekday, np_1darray_int32), np_1darray_int32, np.int32)
 
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(arr.dayofyear, np_1darray_int32), np_1darray_int32, np.int32)
 
@@ -265,8 +265,8 @@ def test_properties() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(
             assert_type(arr.daysinmonth, np_1darray_int32), np_1darray_int32, np.int32

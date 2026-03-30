@@ -999,16 +999,16 @@ def test_timestamp_properties() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.1.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(ts.dayofweek, int), int)
 
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.1.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(ts.dayofyear, int), int)
 
@@ -1017,8 +1017,8 @@ def test_timestamp_properties() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.1.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(ts.daysinmonth, int), int)
 
@@ -1585,16 +1585,16 @@ def test_period_properties() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.1.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(p.dayofweek, int), int)
 
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.1.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(p.dayofyear, int), int)
 
@@ -1603,8 +1603,8 @@ def test_period_properties() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.1.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(p.daysinmonth, int), int)
 
@@ -1623,8 +1623,8 @@ def test_period_properties() -> None:
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
-        lower="3.0.0",
-        upper="3.2.0",
+        lower="3.0.99",
+        upper="3.1.99",
     ):
         check(assert_type(p.weekday, int), int)
 
