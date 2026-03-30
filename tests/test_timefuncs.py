@@ -342,18 +342,25 @@ def test_series_dt_accessors() -> None:
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
         lower="3.0.0",
-        upper="3.1.0",
+        upper="3.2.0",
     ):
         check(assert_type(s0.dt.dayofweek, "pd.Series[int]"), pd.Series, np.integer)
 
     check(assert_type(s0.dt.day_of_week, "pd.Series[int]"), pd.Series, np.integer)
-    check(assert_type(s0.dt.weekday, "pd.Series[int]"), pd.Series, np.integer)
 
     with pytest_warns_bounded(
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
         lower="3.0.0",
-        upper="3.1.0",
+        upper="3.2.0",
+    ):
+        check(assert_type(s0.dt.weekday, "pd.Series[int]"), pd.Series, np.integer)
+
+    with pytest_warns_bounded(
+        Pandas4Warning,
+        "is deprecated and will be removed in a future version.",
+        lower="3.0.0",
+        upper="3.2.0",
     ):
         check(assert_type(s0.dt.dayofyear, "pd.Series[int]"), pd.Series, np.integer)
 
@@ -371,7 +378,7 @@ def test_series_dt_accessors() -> None:
         Pandas4Warning,
         "is deprecated and will be removed in a future version.",
         lower="3.0.0",
-        upper="3.1.0",
+        upper="3.2.0",
     ):
         check(assert_type(s0.dt.daysinmonth, "pd.Series[int]"), pd.Series, np.integer)
 
@@ -668,7 +675,14 @@ def test_datetimeindex_accessors() -> None:
         check(assert_type(i0.dayofweek, "pd.Index[int]"), pd.Index, np.int32)
 
     check(assert_type(i0.day_of_week, "pd.Index[int]"), pd.Index, np.int32)
-    check(assert_type(i0.weekday, "pd.Index[int]"), pd.Index, np.int32)
+
+    with pytest_warns_bounded(
+        Pandas4Warning,
+        "is deprecated and will be removed in a future version.",
+        lower="3.0.0",
+        upper="3.2.0",
+    ):
+        check(assert_type(i0.weekday, "pd.Index[int]"), pd.Index, np.int32)
 
     with pytest_warns_bounded(
         Pandas4Warning,
@@ -786,7 +800,13 @@ def test_periodindex_accessors() -> None:
         check(assert_type(i0.dayofweek, "pd.Index[int]"), pd.Index, np.integer)
 
     check(assert_type(i0.day_of_week, "pd.Index[int]"), pd.Index, np.integer)
-    check(assert_type(i0.weekday, "pd.Index[int]"), pd.Index, np.integer)
+    with pytest_warns_bounded(
+        Pandas4Warning,
+        "is deprecated and will be removed in a future version.",
+        lower="3.0.0",
+        upper="3.2.0",
+    ):
+        check(assert_type(i0.weekday, "pd.Index[int]"), pd.Index, np.integer)
 
     with pytest_warns_bounded(
         Pandas4Warning,

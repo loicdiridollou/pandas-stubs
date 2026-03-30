@@ -1619,7 +1619,15 @@ def test_period_properties() -> None:
     check(assert_type(p.second, int), int)
     check(assert_type(p.start_time, pd.Timestamp), pd.Timestamp)
     check(assert_type(p.week, int), int)
-    check(assert_type(p.weekday, int), int)
+
+    with pytest_warns_bounded(
+        Pandas4Warning,
+        "is deprecated and will be removed in a future version.",
+        lower="3.0.0",
+        upper="3.2.0",
+    ):
+        check(assert_type(p.weekday, int), int)
+
     check(assert_type(p.weekofyear, int), int)
     check(assert_type(p.year, int), int)
     check(assert_type(p.freq, BaseOffset), Day)
