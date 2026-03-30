@@ -2544,3 +2544,18 @@ def test_argmin_and_argmax_return() -> None:
     i1 = df.a.abs().argmax()
     check(assert_type(i, np.int64), np.int64)
     check(assert_type(i1, np.int64), np.int64)
+
+
+def test_frame_subclass_concat() -> None:
+    """Test concatenate subclass of DataFrame GH1396."""
+
+    class ChildDataFrame(pd.DataFrame):
+        @property
+        def _constructor(self) -> type[ChildDataFrame]:
+            return ChildDataFrame
+
+    cdf1 = ChildDataFrame(data={"a": [0]})
+    cdf2 = ChildDataFrame(data={"a": [1]})
+
+    cdf = pd.concat([cdf1, cdf2], ignore_index=True)
+    check(assert_type(cdf, ChildDataFrame), ChildDataFrame)
