@@ -144,7 +144,8 @@ class DecimalArray(OpsMixin, ExtensionArray):
     def _from_sequence_of_strings(
         cls,
         strings: SequenceNotStr[str],
-        dtype: DecimalDtype | None = None,
+        *,
+        dtype: DecimalDtype,
         copy: bool = False,
     ) -> Self:
         return cls._from_sequence([decimal.Decimal(x) for x in strings], dtype, copy)
