@@ -39,6 +39,7 @@ from tests._typing import (
     np_1darray_td,
 )
 
+from pandas.tseries.api import guess_datetime_format
 from pandas.tseries.frequencies import to_offset
 from pandas.tseries.holiday import USFederalHolidayCalendar
 from pandas.tseries.offsets import (
@@ -1912,3 +1913,11 @@ def test_to_offset_timedelta() -> None:
     td = dt.timedelta(hours=1)
     result = to_offset(td)
     assert_type(result, BaseOffset)
+
+
+def test_guess_datetime_format() -> None:
+    """Test that guess_datetime_format is properly exposed from pandas.tseries.api module."""
+    check(assert_type(guess_datetime_format("09/13/2023"), str | None), str)
+    check(
+        assert_type(guess_datetime_format("2023|September|13"), str | None), type(None)
+    )

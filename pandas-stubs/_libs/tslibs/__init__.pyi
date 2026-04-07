@@ -7,6 +7,7 @@ __all__ = [
     "Tick",
     "Timedelta",
     "Timestamp",
+    "guess_datetime_format",
     "iNaT",
     "nat_strings",
 ]
@@ -24,6 +25,7 @@ from pandas._libs.tslibs.offsets import (
     BaseOffset,
     Tick,
 )
+from pandas._libs.tslibs.parsing import guess_datetime_format as guess_datetime_format
 from pandas._libs.tslibs.period import Period
 from pandas._libs.tslibs.timedeltas import Timedelta
 from pandas._libs.tslibs.timestamps import Timestamp
