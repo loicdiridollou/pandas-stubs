@@ -171,7 +171,7 @@ def read_csv(
     keep_default_na: bool = ...,
     na_filter: bool = ...,
     skip_blank_lines: bool = ...,
-    parse_dates: bool | list[int] | list[str] | None = ...,
+    parse_dates: bool | list[int] | list[str] | None = None,
     keep_date_col: bool = False,
     date_format: dict[Hashable, str] | str | None = ...,
     dayfirst: bool = ...,
@@ -234,7 +234,7 @@ def read_table(
         | Sequence[Sequence[int]]
         | Mapping[str, Sequence[int | str]]
         | None
-    ) = False,
+    ) = None,
     keep_date_col: bool = False,
     date_format: dict[Hashable, str] | str | None = None,
     dayfirst: bool = False,
@@ -297,7 +297,7 @@ def read_table(
         | Sequence[Sequence[int]]
         | Mapping[str, Sequence[int | str]]
         | None
-    ) = False,
+    ) = None,
     keep_date_col: bool = False,
     date_format: dict[Hashable, str] | str | None = None,
     dayfirst: bool = False,
@@ -360,7 +360,7 @@ def read_table(
         | Sequence[Sequence[int]]
         | Mapping[str, Sequence[int | str]]
         | None
-    ) = False,
+    ) = None,
     keep_date_col: bool = False,
     date_format: dict[Hashable, str] | str | None = None,
     dayfirst: bool = False,
