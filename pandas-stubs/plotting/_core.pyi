@@ -468,6 +468,7 @@ class PlotAccessor:
             | Callable[[gaussian_kde], float]
             | None
         ) = ...,
+        weights: np_ndarray_float | Series[float] | None = None,
         ind: np_ndarray_float | int | None = ...,
         *,
         subplots: Literal[False] | None = ...,
@@ -482,6 +483,7 @@ class PlotAccessor:
             | Callable[[gaussian_kde], float]
             | None
         ) = ...,
+        weights: np_ndarray_float | Series[float] | None = None,
         ind: np_ndarray_float | int | None = ...,
         *,
         subplots: Literal[True],

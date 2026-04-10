@@ -1528,6 +1528,27 @@ def test_types_pivot_table() -> None:
     )
 
 
+def test_pivot_table_kwargs() -> None:
+    """Test passing kwargs for the aggfunc to pivot_table."""
+    df = pd.DataFrame(
+        {
+            "A": ["good", "bad", "good", "bad", "good"],
+            "B": ["one", "two", "one", "three", "two"],
+            "X": [2, 5, 4, 20, 10],
+        }
+    )
+
+    check(
+        assert_type(
+            pd.pivot_table(
+                df, index="A", columns="B", values="X", aggfunc="std", ddof=2
+            ),
+            pd.DataFrame,
+        ),
+        pd.DataFrame,
+    )
+
+
 def test_pivot_table_aggfunc_string_reduction(sample_df: pd.DataFrame) -> None:
     """Test string aggfunc with reduction functions from ReductionKernelType."""
     check(

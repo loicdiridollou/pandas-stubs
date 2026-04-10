@@ -502,6 +502,17 @@ def test_plot_kde(close_figures: None) -> None:
     s.plot.kde(weights=sr_wgts)
 
 
+def test_kde_kwargs_weights(close_figures: None) -> None:
+    sr = Series(np.random.default_rng(2).uniform(size=50))
+    check(
+        assert_type(
+            sr.plot.kde(bw_method="scott", ind=40, weights=np.linspace(0.0, 2.0, 50)),
+            Axes,
+        ),
+        Axes,
+    )
+
+
 def test_plot_pie(close_figures: None) -> None:
     check(assert_type(IRIS_DF.plot.pie(y="SepalLength"), Axes), Axes)
     check(assert_type(IRIS_DF.plot(kind="pie", y="SepalLength"), Axes), Axes)

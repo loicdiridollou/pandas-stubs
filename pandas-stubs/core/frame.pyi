@@ -1366,6 +1366,7 @@ class DataFrame(NDFrame, OpsMixin, _GetItemHack):
         margins_name: _str = "All",
         observed: _bool = True,
         sort: _bool = True,
+        **kwargs: Any,
     ) -> Self: ...
     def stack(
         self,

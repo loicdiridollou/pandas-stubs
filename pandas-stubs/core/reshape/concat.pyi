@@ -37,6 +37,19 @@ def concat(
     sort: bool = False,
 ) -> Never: ...
 @overload
+def concat(
+    objs: Iterable[NDFrame | None] | Mapping[HashableT1, NDFrame | None],
+    *,
+    axis: Axis = 0,
+    join: Literal["inner", "outer"] = "outer",
+    ignore_index: Literal[True],
+    keys: Iterable[HashableT2],
+    levels: Sequence[list[HashableT3] | tuple[HashableT3, ...]] | None = None,
+    names: list[HashableT4] | None = None,
+    verify_integrity: bool = False,
+    sort: bool = False,
+) -> Never: ...
+@overload
 def concat(  # type: ignore[overload-overlap] # pyright: ignore[reportOverlappingOverload]
     objs: Iterable[Series[S2] | None] | Mapping[HashableT1, Series[S2] | None],
     *,

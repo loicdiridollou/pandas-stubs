@@ -403,6 +403,10 @@ def test_concat_args() -> None:
         pd.DataFrame,
     )
 
+    if TYPE_CHECKING_INVALID_USAGE:
+        # can't pass ignore_index=True and keys
+        assert_type(pd.concat([df, df2], ignore_index=True, keys=["df1", "df2"]), Never)
+
 
 def test_types_json_normalize() -> None:
     data1: list[dict[str, Any]] = [
@@ -2111,6 +2115,27 @@ def test_pivot_table() -> None:
             "dt": pd.date_range("2011-01-01", freq="D", periods=5),
         },
         index=idx,
+    )
+
+
+def test_pivot_table_kwargs() -> None:
+    """Test passing kwargs for the aggfunc to pivot_table."""
+    df = pd.DataFrame(
+        {
+            "A": ["good", "bad", "good", "bad", "good"],
+            "B": ["one", "two", "one", "three", "two"],
+            "X": [2, 5, 4, 20, 10],
+        }
+    )
+
+    check(
+        assert_type(
+            pd.pivot_table(
+                df, index="A", columns="B", values="X", aggfunc="std", ddof=2
+            ),
+            pd.DataFrame,
+        ),
+        pd.DataFrame,
     )
 
 
