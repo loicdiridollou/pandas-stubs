@@ -1566,6 +1566,7 @@ class DataFrame(NDFrame, OpsMixin, _GetItemHack):
         self,
         func: Callable[..., Any],
         na_action: Literal["ignore"] | None = None,
+        engine: Any = None,
         **kwargs: Any,
     ) -> Self: ...
     def join(

@@ -1116,6 +1116,7 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
         self,
         func: Callable[Concatenate[S1, ...], S2 | NAType],
         na_action: Literal["ignore"],
+        engine: Callable[..., Any] | None = None,
         **kwargs: Any,
     ) -> Series[S2]: ...
     @overload
@@ -1123,12 +1124,14 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
         self,
         func: Mapping[S1, S2] | Series[S2],
         na_action: Literal["ignore"],
+        engine: None = None,
     ) -> Series[S2]: ...
     @overload
     def map(
         self,
         func: Callable[Concatenate[S1 | NAType, ...], S2 | NAType],
         na_action: None = None,
+        engine: Callable[..., Any] | None = None,
         **kwargs: Any,
     ) -> Series[S2]: ...
     @overload
@@ -1136,12 +1139,14 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
         self,
         func: Mapping[S1, S2] | Series[S2],
         na_action: None = None,
+        engine: None = None,
     ) -> Series[S2]: ...
     @overload
     def map(
         self,
         func: Callable[..., Any],
         na_action: Literal["ignore"] | None = None,
+        engine: Callable[..., Any] | None = None,
         **kwargs: Any,
     ) -> Series: ...
     @overload
@@ -1149,6 +1154,7 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
         self,
         func: Mapping[Any, Any] | Series,
         na_action: Literal["ignore"] | None = None,
+        engine: None = None,
     ) -> Series: ...
     @overload
     def aggregate(

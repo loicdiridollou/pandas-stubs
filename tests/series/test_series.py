@@ -2783,6 +2783,50 @@ def test_map_na() -> None:
     )
 
 
+def test_map_engine() -> None:
+    s: pd.Series[int] = pd.Series([1, 2, 3])
+
+    def to_str(x: int) -> str:
+        return str(x)
+
+    # engine=None with na_action="ignore": func takes S1, returns S2
+    check(
+        assert_type(s.map(to_str, na_action="ignore", engine=None), "pd.Series[str]"),
+        pd.Series,
+        str,
+    )
+
+    # engine=None with na_action=None: func must handle NAType
+    def nullable_to_str(x: int | NAType) -> str | NAType:
+        return str(x) if isinstance(x, int) else x
+
+    check(
+        assert_type(
+            s.map(nullable_to_str, na_action=None, engine=None), "pd.Series[str]"
+        ),
+        pd.Series,
+        str,
+    )
+
+    # Mapping/Series: engine must be None (omitted or explicit)
+    mapping = {1: "a", 2: "b", 3: "c"}
+    check(
+        assert_type(s.map(mapping, engine=None), "pd.Series[str]"),
+        pd.Series,
+        str,
+    )
+
+    if TYPE_CHECKING:
+        # engine accepts any callable (e.g. a JIT decorator like numba.jit).
+        # Cannot be tested at runtime: pandas validates __pandas_udf__ on the engine.
+        def jit_decorator(f: Callable[..., Any]) -> Callable[..., Any]:
+            return f
+
+        assert_type(
+            s.map(to_str, na_action="ignore", engine=jit_decorator), "pd.Series[str]"
+        )
+
+
 def test_case_when() -> None:
     c = pd.Series([6, 7, 8, 9], name="c")
     a = pd.Series([0, 0, 1, 2])
