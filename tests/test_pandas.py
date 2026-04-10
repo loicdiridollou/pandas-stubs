@@ -442,6 +442,25 @@ def test_types_json_normalize() -> None:
     check(assert_type(pd.json_normalize(data=data2), pd.DataFrame), pd.DataFrame)
 
 
+def test_json_normalize_series() -> None:
+    """Test passing a Series as data for json_normalize."""
+    data = [
+        {
+            "id": 1,
+            "name": "Cole Volk",
+            "fitness": {"height": 130, "weight": 60},
+        },
+        {"name": "Mark Reg", "fitness": {"height": 130, "weight": 60}},
+        {
+            "id": 2,
+            "name": "Faye Raker",
+            "fitness": {"height": 130, "weight": 60},
+        },
+    ]
+    series = pd.Series(data, index=pd.Index(["a", "b", "c"]))
+    check(assert_type(pd.json_normalize(series), pd.DataFrame), pd.DataFrame)
+
+
 def test_isna() -> None:
     # https://github.com/pandas-dev/pandas-stubs/issues/264
     s = pd.Series([1, np.nan, 3.2])
