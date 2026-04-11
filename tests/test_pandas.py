@@ -1,3 +1,4 @@
+# pyrefly: ignore-errors
 # TODO: pandas-dev/pandas#55023
 from __future__ import annotations
 
@@ -401,6 +402,21 @@ def test_concat_args() -> None:
         ),
         pd.DataFrame,
     )
+
+
+def test_frame_subclass_concat() -> None:
+    """Test concatenate subclass of DataFrame GH1396."""
+
+    class ChildDataFrame(pd.DataFrame):
+        @property
+        def _constructor(self) -> type[ChildDataFrame]:
+            return ChildDataFrame
+
+    cdf1 = ChildDataFrame(data={"a": [0]})
+    cdf2 = ChildDataFrame(data={"a": [1]})
+
+    cdf = pd.concat([cdf1, cdf2], ignore_index=True)
+    check(assert_type(cdf, ChildDataFrame), ChildDataFrame)
 
 
 def test_types_json_normalize() -> None:
