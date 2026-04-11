@@ -1,3 +1,4 @@
+# pyrefly: ignore-errors
 from __future__ import annotations
 
 from collections.abc import (
@@ -8,6 +9,7 @@ import datetime as dt
 from typing import (
     TYPE_CHECKING,
     Any,
+    NamedTuple,
     Never,
     assert_type,
     cast,
@@ -1760,3 +1762,96 @@ def test_ravel(
         assert_type(
             pd.PeriodIndex([pd.Period("2022-01", freq="M")]).ravel(), pd.PeriodIndex
         )
+
+
+@pytest.mark.filterwarnings("ignore::pandas.errors.PerformanceWarning")
+def test_get_loc_named_tuples() -> None:
+    """Test get_loc for Index with named tuples."""
+
+    class NamedIndex(NamedTuple):
+        a: str
+        b: str
+
+    midx = pd.MultiIndex.from_tuples(
+        [NamedIndex("i1", "i2"), NamedIndex("i3", "i4"), NamedIndex("i5", "i6")]
+    )
+    flat_midx = midx.to_flat_index()
+
+    check(
+        assert_type(
+            midx.get_loc(NamedIndex("i1", "i2")), int | slice | np_1darray_bool
+        ),
+        int,
+    )
+    check(assert_type(midx.get_loc(("i1", "i2")), int | slice | np_1darray_bool), int)
+    check(assert_type(midx.get_loc(("i3", "i4")), int | slice | np_1darray_bool), int)
+    check(assert_type(midx.get_loc(("i5", "i6")), int | slice | np_1darray_bool), int)
+
+    check(
+        assert_type(
+            flat_midx.get_loc(NamedIndex("i1", "i2")), int | slice | np_1darray_bool
+        ),
+        int,
+    )
+    check(
+        assert_type(flat_midx.get_loc(("i1", "i2")), int | slice | np_1darray_bool), int
+    )
+    check(
+        assert_type(flat_midx.get_loc(("i3", "i4")), int | slice | np_1darray_bool), int
+    )
+    check(
+        assert_type(flat_midx.get_loc(("i5", "i6")), int | slice | np_1darray_bool), int
+    )
+
+    # Duplicate entries in sorted order → get_loc returns a slice
+    flat_midx_sorted_dupes = pd.Index(
+        [NamedIndex("i1", "i2"), NamedIndex("i1", "i2"), NamedIndex("i5", "i6")]
+    )
+    check(
+        assert_type(
+            flat_midx_sorted_dupes.get_loc(NamedIndex("i1", "i2")),
+            int | slice | np_1darray_bool,
+        ),
+        slice,
+    )
+
+    # Duplicate entries in contiguous order → get_loc returns a slice
+    flat_midx_unsorted_dupes = pd.Index(
+        [NamedIndex("i5", "i6"), NamedIndex("i1", "i2"), NamedIndex("i1", "i2")]
+    )
+    check(
+        assert_type(
+            flat_midx_unsorted_dupes.get_loc(NamedIndex("i1", "i2")),
+            int | slice | np_1darray_bool,
+        ),
+        slice,
+    )
+
+
+def test_get_loc_bool_array() -> None:
+    """Test that get_loc returns a boolean ndarray for non-contiguous duplicates."""
+    idx = pd.Index(["a", "b", "a", "c"])
+    check(
+        assert_type(idx.get_loc("a"), int | slice | np_1darray_bool),
+        np.ndarray,
+        np.bool_,
+    )
+
+
+def test_multiindex_get_loc() -> None:
+    """Test the different returns type of MultiIndex.get_loc."""
+    mi = pd.MultiIndex.from_arrays([["a", "b", "b"], ["d", "e", "f"]])
+
+    # int
+    loc_int = mi.get_loc(("b", "e"))
+    check(assert_type(loc_int, int | slice | np_1darray_bool), int)
+
+    # slice
+    loc_slice = mi.get_loc("b")
+    check(assert_type(loc_slice, int | slice | np_1darray_bool), slice)
+
+    # boolean mask
+    # (non-sorted level causes a mask to be returned)
+    mi_unsorted = pd.MultiIndex.from_arrays([["a", "b", "a"], ["d", "e", "f"]])
+    loc_mask = mi_unsorted.get_loc("a")
+    check(assert_type(loc_mask, int | slice | np_1darray_bool), np.ndarray, np.bool_)

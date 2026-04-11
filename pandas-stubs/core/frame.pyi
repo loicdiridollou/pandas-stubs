@@ -524,8 +524,6 @@ class DataFrame(NDFrame, OpsMixin, _GetItemHack):
             np_2darray
             | Iterable[SequenceNotStr[Any]]
             | Iterable[Mapping[HashableT, Any]]
-            | Mapping[HashableT, Any]
-            | Mapping[HashableT, SequenceNotStr[Any]]
         ),
         index: str | Axes | None = None,
         exclude: ListLike | None = None,
@@ -2593,7 +2591,7 @@ class DataFrame(NDFrame, OpsMixin, _GetItemHack):
             | Callable[[DataFrame], DataFrame]
             | Callable[[Any], _bool]
         ),
-        other: Scalar | Self | Callable[..., Scalar | Self] = ...,
+        other: Scalar | Self | Callable[..., Scalar | Self] | None = ...,
         *,
         inplace: bool = False,
         axis: Axis | None = ...,

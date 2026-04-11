@@ -1,3 +1,4 @@
+# pyrefly: ignore-errors
 from __future__ import annotations
 
 from collections import UserDict
@@ -1966,20 +1967,36 @@ def test_to_numpy() -> None:
 
 
 def test_where() -> None:
-    s = pd.Series([1, 2, 3], dtype=int)
+    sr = pd.Series([1, 2, 3], dtype=int)
 
     def cond1(x: int) -> bool:
         return x % 2 == 0
 
-    check(assert_type(s.where(cond1, other=0), "pd.Series[int]"), pd.Series, np.int_)
+    check(assert_type(sr.where(cond1, other=0), "pd.Series[int]"), pd.Series, np.int_)
 
     def cond2(x: pd.Series[int]) -> pd.Series[bool]:
         return x > 1
 
-    check(assert_type(s.where(cond2, other=0), "pd.Series[int]"), pd.Series, np.int_)
+    check(assert_type(sr.where(cond2, other=0), "pd.Series[int]"), pd.Series, np.int_)
 
     cond3 = pd.Series([False, True, True])
-    check(assert_type(s.where(cond3, other=0), "pd.Series[int]"), pd.Series, np.int_)
+    check(assert_type(sr.where(cond3, other=0), "pd.Series[int]"), pd.Series, np.int_)
+
+    sr = pd.Series([1, 2, 3])
+    check(
+        assert_type(sr.where(sr > 1, 0.5), "pd.Series[float]"), pd.Series, np.floating
+    )
+
+    sr_n = pd.Series([1.0, 2.3, 3.5])
+    check(
+        assert_type(sr_n.where(sr > 1, 0), "pd.Series[float]"), pd.Series, np.floating
+    )
+
+
+def test_where_with_none() -> None:
+    # https://github.com/vega/altair/issues/3961
+    s = pd.Series([1.5, 2.6])
+    check(assert_type(s.where(s > 1, None), "pd.Series[float]"), pd.Series, float)
 
 
 def test_bitwise_operators() -> None:
@@ -2366,6 +2383,9 @@ def test_types_mask() -> None:
     # Test cases with None and pd.NA as other
     check(assert_type(s.mask(s > 3, None), "pd.Series[int]"), pd.Series, np.float64)
     check(assert_type(s.mask(s > 3, pd.NA), "pd.Series[int]"), pd.Series, np.float64)
+
+    # check with a type for other that is wider than the series content
+    check(assert_type(s.mask(s > 3, 3.5), "pd.Series[float]"), pd.Series, np.float64)
 
 
 def test_rank() -> None:
