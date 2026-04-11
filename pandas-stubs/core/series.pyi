@@ -3716,7 +3716,7 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
     @overload
     def __truediv__(self: Series[_str], other: Path) -> Series: ...
     @overload
-    def truediv(  # type: ignore[overload-overlap]
+    def truediv(
         self,
         other: DataFrame,
         level: Level | None = None,

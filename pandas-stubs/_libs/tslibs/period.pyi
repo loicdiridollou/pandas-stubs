@@ -24,7 +24,7 @@ from pandas._typing import (
     np_ndarray_object,
 )
 
-class IncompatibleFrequency(ValueError): ...
+class IncompatibleFrequency(TypeError): ...
 
 _PeriodFreqHow: TypeAlias = Literal["S", "E", "start", "end"]
 
