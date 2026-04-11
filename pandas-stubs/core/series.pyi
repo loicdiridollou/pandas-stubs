@@ -1203,7 +1203,6 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
             | NAType
             | None,
         ],
-        convertDType: _bool = ...,
         args: tuple[Any, ...] = ...,
         **kwargs: Any,
     ) -> Series: ...
@@ -1211,7 +1210,6 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
     def apply(
         self,
         func: Callable[..., BaseOffset],
-        convertDType: _bool = ...,
         args: tuple[Any, ...] = ...,
         **kwargs: Any,
     ) -> Series[BaseOffset]: ...
@@ -1219,7 +1217,6 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
     def apply(
         self,
         func: Callable[..., Series],
-        convertDType: _bool = ...,
         args: tuple[Any, ...] = ...,
         **kwargs: Any,
     ) -> DataFrame: ...
@@ -1377,10 +1374,6 @@ class Series(IndexOpsMixin[S1], ElementOpsMixin[S1], NDFrame):
         legend: _bool = False,
         **kwargs: Any,
     ) -> SubplotBase: ...
-    @final
-    def swapaxes(
-        self, axis1: AxisIndex, axis2: AxisIndex, copy: _bool = ...
-    ) -> Series[S1]: ...
     @final
     def droplevel(self, level: Level | list[Level], axis: AxisIndex = 0) -> Self: ...
     def pop(self, item: Hashable) -> S1: ...

@@ -333,7 +333,6 @@ class GroupBy(BaseGroupBy[NDFrameT]):
         self,
         periods: int = ...,
         fill_method: Literal["bfill", "ffill"] | None | NoDefault = ...,
-        limit: int | None | NoDefault = ...,
         freq: Frequency | None = None,
         axis: Axis | NoDefault = ...,
     ) -> NDFrameT: ...
