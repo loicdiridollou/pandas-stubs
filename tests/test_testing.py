@@ -43,4 +43,4 @@ def test_assert_frame_equal() -> None:
     assert_frame_equal(df1, df2, check_index_type=False)
 
     if TYPE_CHECKING_INVALID_USAGE:
-        assert_frame_equal(df1, df2, check_datetimelike_compat=True)  # type: ignore[call-arg] # pyright: ignore[reportCallIssue]
+        assert_frame_equal(df1, df2, check_datetimelike_compat=True)  # type: ignore[call-arg] # pyright: ignore[reportCallIssue]  # pyrefly: ignore[no-matching-overload]
